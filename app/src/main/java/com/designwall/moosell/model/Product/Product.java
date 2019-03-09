@@ -609,4 +609,21 @@ public class Product {
         this.menu_order = menu_order;
     }
 
+    public boolean hasImage(){
+        return !this.getImages().get(0).getSrc().isEmpty();
+    }
+
+    public String getImageSrc(){
+        return this.getImages().get(0).getSrc();
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "title='" + getTitle() + '\'' +
+                ", id=" + getId() +
+                ", name='" + getName() + '\'' +
+                ", price='" + getPrice() + '\'' +
+                '}';
+    }
 }

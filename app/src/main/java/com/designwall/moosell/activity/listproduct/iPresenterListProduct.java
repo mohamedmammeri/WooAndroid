@@ -5,6 +5,7 @@ package com.designwall.moosell.activity.listproduct;
  */
 
 public interface iPresenterListProduct {
+
     void saveReceivedCategory(String categoryName, int categoryCount);
 
     void loadPage(int pagePos);
@@ -12,4 +13,5 @@ public interface iPresenterListProduct {
     void refreshData();
 
     void loadNextPage();
+
 }

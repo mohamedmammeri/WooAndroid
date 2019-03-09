@@ -13,6 +13,7 @@
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <com.cooltechworks.views.shimmer.ShimmerRecyclerView
             android:id="@+id/categoriesRecyclerView"
             android:layout_width="match_parent"
@@ -21,5 +22,7 @@
             app:demo_layout="@layout/category_shimmer"
             app:demo_layout_manager_type="linear_vertical">
         </com.cooltechworks.views.shimmer.ShimmerRecyclerView>
+
     </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>

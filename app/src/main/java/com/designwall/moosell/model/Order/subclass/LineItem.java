@@ -22,7 +22,17 @@ public class LineItem {
     private int product_id;
     private String sku;
     private List<MetaItem> meta;
-    private String variations;
+//    private String variations;
+
+    public LineItem(int id, String price, int quantity, String name) {
+        this.id = id;
+        this.price = price;
+        this.quantity = quantity;
+        this.name = name;
+    }
+
+    public LineItem() {
+    }
 
     public int getId() {
         return id;
@@ -120,11 +130,11 @@ public class LineItem {
         this.meta = meta;
     }
 
-    public String getVariations() {
-        return variations;
-    }
+//    public String getVariations() {
+//        return variations;
+//    }
 
-    public void setVariations(String variations) {
-        this.variations = variations;
-    }
+//    public void setVariations(String variations) {
+//        this.variations = variations;
+//    }
 }

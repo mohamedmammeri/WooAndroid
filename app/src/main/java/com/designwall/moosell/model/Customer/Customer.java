@@ -22,8 +22,10 @@ public class Customer {
     private int orders_count;
     private int total_spent;
     private String avatar_url;
-    private List<BillingAddress> billing_address;
-    private List<ShippingAddress> shipping_address;
+    private BillingAddress billing_address;
+    private ShippingAddress shipping_address;
+//    private List<BillingAddress> billing_address;
+//    private List<ShippingAddress> shipping_address;
 
 
     public int getId() {
@@ -122,20 +124,35 @@ public class Customer {
         this.avatar_url = avatar_url;
     }
 
-    public List<BillingAddress> getBilling_address() {
+    public BillingAddress getBilling_address() {
         return billing_address;
     }
 
-    public void setBilling_address(List<BillingAddress> billing_address) {
+    public void setBilling_address(BillingAddress billing_address) {
         this.billing_address = billing_address;
     }
 
-    public List<ShippingAddress> getShipping_address() {
+    public ShippingAddress getShipping_address() {
         return shipping_address;
     }
 
-    public void setShipping_address(List<ShippingAddress> shipping_address) {
+    public void setShipping_address(ShippingAddress shipping_address) {
         this.shipping_address = shipping_address;
     }
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", created_at='" + created_at + '\'' +
+                ", email='" + email + '\'' +
+                ", first_name='" + first_name + '\'' +
+                ", last_name='" + last_name + '\'' +
+                ", username='" + username + '\'' +
+                ", last_order_id=" + last_order_id +
+                ", last_order_date='" + last_order_date + '\'' +
+                ", orders_count=" + orders_count +
+                ", total_spent=" + total_spent +
+                '}';
+    }
 }

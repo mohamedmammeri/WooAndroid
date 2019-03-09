@@ -8,7 +8,9 @@
     android:layout_height="match_parent"
     tools:context="com.designwall.moosell.activity.listproduct.ListProductActivity">
 
-    <include android:id="@+id/tb" layout="@layout/appbar" />
+
+    <include android:id="@+id/tb"
+        layout="@layout/appbar" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -43,6 +45,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=" Loading..."/>
+            android:text="@string/loading"/>
     </LinearLayout>
 </RelativeLayout>

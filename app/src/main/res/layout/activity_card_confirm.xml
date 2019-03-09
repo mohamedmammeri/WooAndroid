@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".activity.card.CardConfirmActivity"
+        android:background="@android:color/transparent">
+
+        <!-- billing_address -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextButtons"
+            android:background="@color/colorButtons"
+            android:textSize="18sp"
+            android:text="@string/billing_information" />
+
+        <!--    "      \"first_name\": \"John\",\n" +
+        "      \"last_name\": \"Doe\",\n" +
+        "      \"address_1\": \"969 Market\",\n" +
+        "      \"address_2\": \"\",\n" +
+        "      \"city\": \"San Francisco\",\n" +
+        "      \"state\": \"CA\",\n" +
+        "      \"postcode\": \"94103\",\n" +
+        "      \"country\": \"US\",\n" +
+        "      \"email\": \"john.doe@example.com\",\n" +
+        "      \"phone\": \"(555) 555-5555\"\n" +-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etBillFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/first_name"
+                    android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/etBillLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etBillAddress1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/address_1"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etBillAddress2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/address_2"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etBillCompany"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/company"
+                android:inputType="text" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etBillCity"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/city"
+                    android:inputType="text" />
+
+                <EditText
+                    android:id="@+id/etBillState"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/state"
+                    android:inputType="text" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress" />
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/phone"
+                    android:inputType="phone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- shipping_address -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorTextButtons"
+            android:background="@color/colorButtons"
+            android:textSize="18sp"
+            android:text="@string/shipping_information" />
+
+        <!--
+            "      \"first_name\": \"John\",\n" +
+            "      \"last_name\": \"Doe\",\n" +
+            "      \"address_1\": \"969 Market\",\n" +
+            "      \"address_2\": \"\",\n" +
+            "      \"city\": \"San Francisco\",\n" +
+            "      \"state\": \"CA\",\n" +
+            "      \"postcode\": \"94103\",\n" +
+            "      \"country\": \"US\"\n" +
+        -->
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etShipFirstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/first_name"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/etShipLastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/last_name"
+                android:inputType="textPersonName" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etShipAddress1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/address_1"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etShipAddress2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/address_2"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/etShipCompany"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/company"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/etShipCity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/city"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/etShipState"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/state"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <!-- Buttons -->
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/buttons_danger"
+                android:textColor="@color/colorTextButtons"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btnValidate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:background="@drawable/buttons_success"
+                android:textColor="@color/colorTextButtons"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:text="@string/validate" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

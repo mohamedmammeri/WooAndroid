@@ -9,6 +9,8 @@ import com.designwall.moosell.model.Order.subclass.LineItem;
 import com.designwall.moosell.model.Order.subclass.PaymentDetail;
 import com.designwall.moosell.model.Order.subclass.ShippingLine;
 import com.designwall.moosell.model.Order.subclass.TaxLine;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.List;
 
@@ -16,37 +18,64 @@ import java.util.List;
  * Created by SCIT on 3/10/2017.
  */
 
+@DatabaseTable
 public class Order {
+
+    @DatabaseField
     private int id;
+    @DatabaseField
     private int order_number;
+    @DatabaseField
     private String created_at;
+    @DatabaseField
     private String updated_at;
+    @DatabaseField
     private String completed_at;
+    @DatabaseField
     private String status;
+    @DatabaseField
     private String currency;
+    @DatabaseField
     private String total;
+    @DatabaseField
     private String subtotal;
+    @DatabaseField
     private int total_line_items_quantity;
+    @DatabaseField
     private String total_tax;
+    @DatabaseField
     private String total_shipping;
+    @DatabaseField
     private String cart_tax;
+    @DatabaseField
     private String shipping_tax;
+    @DatabaseField
     private String total_discount;
+    @DatabaseField
     private String shipping_methods;
-    private List<PaymentDetail> payment_details;
-    private List<BillingAddress> billing_address;
-    private List<ShippingAddress> shipping_address;
+    private PaymentDetail payment_details;
+    private BillingAddress billing_address;
+    private ShippingAddress shipping_address;
+//    private List<PaymentDetail> payment_details;
+//    private List<BillingAddress> billing_address;
+//    private List<ShippingAddress> shipping_address;
+    @DatabaseField
     private String note;
+    @DatabaseField
     private String customer_ip;
+    @DatabaseField
     private String customer_user_agent;
+    @DatabaseField
     private int customer_id;
+    @DatabaseField
     private String view_order_url;
     private List<LineItem> line_items;
     private List<ShippingLine> shipping_lines;
     private List<TaxLine> tax_lines;
     private List<FeeLine> fee_lines;
     private List<CouponLine> coupon_lines;
-    private List<Customer> customer;
+    private Customer customer;
+//    private List<Customer> customer;
 
     public int getId() {
         return id;
@@ -176,29 +205,52 @@ public class Order {
         this.shipping_methods = shipping_methods;
     }
 
-    public List<PaymentDetail> getPayment_details() {
+    public PaymentDetail getPayment_details() {
         return payment_details;
     }
 
-    public void setPayment_details(List<PaymentDetail> payment_details) {
+    public void setPayment_details(PaymentDetail payment_details) {
         this.payment_details = payment_details;
     }
 
-    public List<BillingAddress> getBilling_address() {
+    public BillingAddress getBilling_address() {
         return billing_address;
     }
 
-    public void setBilling_address(List<BillingAddress> billing_address) {
+    public void setBilling_address(BillingAddress billing_address) {
         this.billing_address = billing_address;
     }
 
-    public List<ShippingAddress> getShipping_address() {
+    public ShippingAddress getShipping_address() {
         return shipping_address;
     }
 
-    public void setShipping_address(List<ShippingAddress> shipping_address) {
+    public void setShipping_address(ShippingAddress shipping_address) {
         this.shipping_address = shipping_address;
     }
+//    public List<PaymentDetail> getPayment_details() {
+//        return payment_details;
+//    }
+//
+//    public void setPayment_details(List<PaymentDetail> payment_details) {
+//        this.payment_details = payment_details;
+//    }
+//
+//    public List<BillingAddress> getBilling_address() {
+//        return billing_address;
+//    }
+//
+//    public void setBilling_address(List<BillingAddress> billing_address) {
+//        this.billing_address = billing_address;
+//    }
+//
+//    public List<ShippingAddress> getShipping_address() {
+//        return shipping_address;
+//    }
+//
+//    public void setShipping_address(List<ShippingAddress> shipping_address) {
+//        this.shipping_address = shipping_address;
+//    }
 
     public String getNote() {
         return note;
@@ -280,12 +332,40 @@ public class Order {
         this.coupon_lines = coupon_lines;
     }
 
-    public List<Customer> getCustomer() {
+    public Customer getCustomer() {
         return customer;
     }
 
-    public void setCustomer(List<Customer> customer) {
+    public void setCustomer(Customer customer) {
         this.customer = customer;
     }
 
+//    public List<Customer> getCustomer() {
+//        return customer;
+//    }
+//
+//    public void setCustomer(List<Customer> customer) {
+//        this.customer = customer;
+//    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", order_number=" + order_number +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", completed_at='" + completed_at + '\'' +
+                ", status='" + status + '\'' +
+                ", currency='" + currency + '\'' +
+                ", total='" + total + '\'' +
+                ", subtotal='" + subtotal + '\'' +
+                ", total_line_items_quantity=" + total_line_items_quantity +
+                ", total_tax='" + total_tax + '\'' +
+                ", total_shipping='" + total_shipping + '\'' +
+                ", note='" + note + '\'' +
+                ", customer_id=" + customer_id +
+                ", line_items=" + line_items +
+                '}';
+    }
 }

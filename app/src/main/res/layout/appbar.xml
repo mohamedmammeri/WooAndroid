@@ -8,9 +8,10 @@
     android:layout_margin="0dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <RelativeLayout
-        android:layout_marginLeft="0dp"
+        android:layout_marginStart="0dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageButton
             android:background="#00000000"
             android:src="@drawable/ic_dehaze"
@@ -18,33 +19,33 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:id="@+id/menuBtn"
-            android:paddingRight="16dp"
             android:paddingEnd="16dp"
-            android:paddingLeft="0dp"
             android:paddingStart="0dp"
-            android:contentDescription="Cart" />
+            android:contentDescription="@string/card" />
 
         <TextView
             android:id="@+id/appTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="Shop"
+            android:text="@string/shop"
             android:textSize="22sp"
-            android:textColor="#333333"/>
+            android:textColor="@color/colorAccent"/>
+
         <ImageButton
             android:background="#00000000"
             android:src="@drawable/ic_shopping_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cartBtn"
-            android:layout_alignParentRight="true"
+            android:id="@+id/cardBtn"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:paddingRight="16dp"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingStart="16dp"
-            android:contentDescription="Cart" />
+            android:contentDescription="@string/card" />
+
     </RelativeLayout>
+
 </android.support.v7.widget.Toolbar>

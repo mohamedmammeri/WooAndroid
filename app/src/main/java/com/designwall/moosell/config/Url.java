@@ -5,9 +5,11 @@ package com.designwall.moosell.config;
  */
 
 public class Url {
+
     private static final String API_VER = "wc-api/v3";
     private static final String URL = Constant.HOST + "/" + API_VER;
 
+    // REST-API Endpoints
     private static final String API_COUPON      = "coupons";
     public static final String API_CUSTOMERS    = "customers";
     public static final String API_EMAIL        = "email";
@@ -23,6 +25,12 @@ public class Url {
     public static final String API_SHIPPING_CLASSES = "shipping_classes";
     public static final String API_TAGS = "tags";
     public static final String API_TAXES = "taxes";
+
+    // Object Names in JSON responses
+    public static final String OBJ_NAME_CATEGORIES = "product_categories";
+    public static final String OBJ_NAME_PRODUCT = "product";
+    public static final String OBJ_NAME_ORDER = "order";
+    public static final String OBJ_NAME_MESSAGE = "message";
 
     private static final String API_BULK = "bulk";
     private static final String API_COUNT = "count";

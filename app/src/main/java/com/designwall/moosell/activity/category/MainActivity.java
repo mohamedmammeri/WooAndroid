@@ -6,24 +6,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
+import com.designwall.moosell.activity.card.CardActivity;
 import com.designwall.moosell.adapter.ListCategoryAdapter;
 import com.designwall.moosell.config.Constant;
+import com.designwall.moosell.db.DatabaseHelper;
 import com.designwall.moosell.model.Product.ProductCategory;
-import com.designwall.moosell.activity.cart.CartActivity;
 import com.designwall.moosell.activity.listproduct.ListProductActivity;
 import com.designwall.moosell.R;
 import com.designwall.moosell.util.Helper;
 import com.designwall.moosell.util.RecyclerViewItemClicked;
+import com.j256.ormlite.dao.Dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Project      : MooSell
@@ -31,13 +36,23 @@ import butterknife.OnClick;
  * On           : 3/10/2017.
  */
 
-public class ListCategoryActivity extends AppCompatActivity implements iViewListCategory,RecyclerViewItemClicked, SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity implements
+        iViewListCategory,
+        RecyclerViewItemClicked,
+        SwipeRefreshLayout.OnRefreshListener {
+
     @BindView(R.id.categoriesRecyclerView)  ShimmerRecyclerView mCategoriesRecyclerView;
     @BindView(R.id.swipeRefreshLayout)      SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.toolbar)                 Toolbar mToolbar;
+    @BindView(R.id.menuBtn)                 ImageButton menuBtn;
+    @BindView(R.id.cardBtn)                 ImageButton cardBtn;
+    @BindView(R.id.appTitle)                TextView appTitle;
 
     private ListCategoryAdapter mAdapter;
     private iPresenterListCategory mPresenter;
+
+    private DatabaseHelper dbHelper;
+    private Dao orderDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +61,28 @@ public class ListCategoryActivity extends AppCompatActivity implements iViewList
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
+//        dbHelper = new DatabaseHelper(this);
+//        try {
+//            orderDao = dbHelper.getDao();
+//        } catch (SQLException e) {
+//            Log.e("Test", e.getMessage());
+//            e.printStackTrace();
+//        }
+
+        appTitle.setText(Constant.SHOP_NAME);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         mPresenter = new PresenterListCategory(this);
         mPresenter.loadData();
+
+        cardBtn.setOnClickListener(new OnMenuButtonClickListener(this));
+        menuBtn.setOnClickListener(new OnMenuButtonClickListener(this));
+
     }
+
+    /*@OnClick(R.id.cardBtn)
+    public void menuButtonClick(View view){
+    }*/
 
     @Override
     public void setupRecyclerView(List<ProductCategory> categories) {
@@ -60,11 +92,6 @@ public class ListCategoryActivity extends AppCompatActivity implements iViewList
         mCategoriesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mCategoriesRecyclerView.setHasFixedSize(true);
         mCategoriesRecyclerView.setAdapter(mAdapter);
-    }
-
-    @OnClick(R.id.cartBtn)
-    public void onCardIconClicked() {
-        startActivity(new Intent(this, CartActivity.class));
     }
 
     @Override

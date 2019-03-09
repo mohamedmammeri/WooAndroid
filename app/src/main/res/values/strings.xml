@@ -1,3 +1,36 @@
 <resources>
-    <string name="app_name">MooSell</string>
+    <string name="app_name">HappyShop</string>
+    <string name="loading">Loading...</string>
+    <string name="shop">Shop</string>
+    <string name="card">card</string>
+    <string name="total">Total: </string>
+    <string name="msg_no_connection">No Internet Connection!</string>
+    <string name="msg_empty_result">Result is empty.</string>
+    <string name="msg_no_more_data">No more data to show!</string>
+    <string name="msg_add_item">Do you want to add this item ?</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="delete">Delete</string>
+    <string name="title_activity_card_confirm">CardConfirmActivity</string>
+    <string name="billing_information">Billing Information *</string>
+    <string name="shipping_information">Shipping Information</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="address_1">Address 1</string>
+    <string name="address_2">Address 2</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="validate">Validate</string>
+    <string name="cancel">Cancel</string>
+    <string name="company">Company</string>
+    <string name="order_num">Order N°: </string>
+    <string name="order_history">Order History</string>
+    <string name="qte">Qte.</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="date_of_creation">Date of Creation: </string>
+    <string name="order_info">Order Info</string>
+    <string name="order_status">Order Status: </string>
+    <string name="order_notes">Notes: </string>
+    <string name="reorder">Re-Order</string>
 </resources>
