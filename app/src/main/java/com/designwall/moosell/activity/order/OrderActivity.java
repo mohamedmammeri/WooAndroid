@@ -66,4 +66,21 @@ public class OrderActivity extends AppCompatActivity
         startActivity(orderDetail);
     }
 
+/*    @Override
+    public boolean deleteOrderRecord(int orderId) {
+        try {
+//            Order order = orderDao.queryForId(orderId);
+            List<Order> orders = orderDao.queryForEq("id", orderId);
+            if (orders != null) {
+//                return orderDao.delete(order) > 0;
+                return orderDao.delete(orders) > 0;
+//                return orderDao.deleteById(orders) > 0;
+            }
+        } catch (SQLException e) {
+            Helper.toastLong(this, "Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
+    }*/
+
 }

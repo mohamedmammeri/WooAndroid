@@ -21,7 +21,7 @@ import java.util.List;
 @DatabaseTable
 public class Order {
 
-    @DatabaseField
+    @DatabaseField(id = true)
     private int id;
     @DatabaseField
     private int order_number;

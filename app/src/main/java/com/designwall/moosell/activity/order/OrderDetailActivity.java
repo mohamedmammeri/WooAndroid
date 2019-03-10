@@ -18,6 +18,7 @@ import com.designwall.moosell.activity.listproduct.ListProductActivity;
 import com.designwall.moosell.adapter.OrderDetailAdapter;
 import com.designwall.moosell.config.Url;
 import com.designwall.moosell.model.Order.Order;
+import com.designwall.moosell.model.Order.OrderNote;
 import com.designwall.moosell.model.Order.subclass.LineItem;
 import com.designwall.moosell.model.Product.Product;
 import com.designwall.moosell.task.GetDataTask;
@@ -127,12 +128,45 @@ public class OrderDetailActivity extends AppCompatActivity {
         }
     }
 
+    private void loadOrderNotes(final int orderId) {
+        new GetDataTask(GetDataTask.METHOD_GET) {
+            @Override
+            protected void onPostExecute(String[] result) {
+                super.onPostExecute(result);
+                if (result.length > 0 && (!result[0].isEmpty())) {
+                    JsonElement jsonOrderNotes = new JsonParser().parse(result[0]).getAsJsonObject()
+                            .get(Url.OBJ_NAME_ORDER_NOTES);
+                    if (jsonOrderNotes != null) {
+                        List<OrderNote> orderNotes = mGson.fromJson(jsonOrderNotes, new TypeToken<List<OrderNote>>(){}.getType());
+                        if (orderNotes == null){
+                            Log.d("Test", "OrderNotes is null");
+                        } else {
+                            StringBuilder notes = new StringBuilder();
+                            for (OrderNote orderNote : orderNotes) {
+                                // Show Only Customer Note
+                                if (orderNote.isCustomer_note())
+                                    notes.append(Helper.formatDate(orderNote.getCreated_at()) + ": " +
+                                            orderNote.getNote().trim() + "\n");
+                            }
+                            if (notes.toString().isEmpty())
+                                tvOrderNotes.setText(getApplicationContext().getString(R.string.order_no_notes));
+                            else
+                                tvOrderNotes.setText(notes.toString());
+                        }
+                    }
+                } else {
+                    Log.d("Test", "Result is empty");
+                }
+            }
+        }.execute(Url.getOrderNote(orderId));
+    }
+
     public void updateOrderInfo(Order order) {
         tvOrderDetailNumber.setText( String.valueOf( order.getOrder_number() ));
         tvOrderCreatedAt.setText( Helper.formatDate(order.getCreated_at()) );
         tvOrderStatus.setText( order.getStatus() );
         tvOrderTotal.setText( order.getTotal() );
-        tvOrderNotes.setText( order.getNote() );
+        loadOrderNotes(order.getId());
     }
 
     private void createOrderFrom() {

@@ -137,4 +137,22 @@ public class LineItem {
 //    public void setVariations(String variations) {
 //        this.variations = variations;
 //    }
+
+
+    @Override
+    public String toString() {
+        return "LineItem{" +
+                "id=" + id +
+                ", subtotal='" + subtotal + '\'' +
+                ", subtotal_tax='" + subtotal_tax + '\'' +
+                ", total='" + total + '\'' +
+                ", total_tax='" + total_tax + '\'' +
+                ", price='" + price + '\'' +
+                ", quantity=" + quantity +
+                ", tax_class='" + tax_class + '\'' +
+                ", name='" + name + '\'' +
+                ", product_id=" + product_id +
+                ", sku='" + sku + '\'' +
+                '}';
+    }
 }

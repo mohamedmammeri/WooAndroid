@@ -30,6 +30,7 @@ public class Url {
     public static final String OBJ_NAME_CATEGORIES = "product_categories";
     public static final String OBJ_NAME_PRODUCT = "product";
     public static final String OBJ_NAME_ORDER = "order";
+    public static final String OBJ_NAME_ORDER_NOTES = "order_notes";
     public static final String OBJ_NAME_MESSAGE = "message";
 
     private static final String API_BULK = "bulk";

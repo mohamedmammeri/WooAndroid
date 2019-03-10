@@ -41,4 +41,14 @@ public class OrderNote {
     public void setCustomer_note(boolean customer_note) {
         this.customer_note = customer_note;
     }
+
+    @Override
+    public String toString() {
+        return "OrderNote{" +
+                "id=" + id +
+                ", created_at='" + created_at + '\'' +
+                ", note='" + note + '\'' +
+                ", customer_note=" + customer_note +
+                '}';
+    }
 }

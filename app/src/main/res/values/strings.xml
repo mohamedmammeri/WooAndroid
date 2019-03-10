@@ -25,6 +25,7 @@
     <string name="cancel">Cancel</string>
     <string name="company">Company</string>
     <string name="order_num">Order N°: </string>
+    <string name="order_no_notes">This Order doesn\'t have notes</string>
     <string name="order_history">Order History</string>
     <string name="qte">Qte.</string>
     <string name="add_to_cart">Add to Cart</string>
