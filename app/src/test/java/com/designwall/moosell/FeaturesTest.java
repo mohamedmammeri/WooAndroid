@@ -313,6 +313,26 @@ public class FeaturesTest {
          */
     }
 
+    @Test
+    public void testGeolocation() throws IOException {
+        String url = String.format(
+                "http://nominatim.openstreetmap.org/reverse?format=json&lat=%s&lon=%s&zoom=18&addressdetails=1",
+                "36.716999", "3.042076"
+        );
+        HttpUrl baseUrl = server.url(url);
+        String responseBody = sendGetRequest(baseUrl);
+        System.out.println(responseBody);
+        assertTrue(responseBody.startsWith("{\"place_id\":"));
+/*
+{"place_id":83811368,"licence":"Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright","osm_type":"way",
+"osm_id":33141450,"lat":"36.7170135980469","lon":"3.0420780778242",
+"display_name":"Lot. Essalem 2, Campagne Semmar, Birkhadem, Bir Mourad Raïs, Alger - الجزائر, 16330, ⵍⵣⵣⴰⵢⴻⵔ الجزائر",
+"address":{"residential":"Lot. Essalem 2","suburb":"Campagne Semmar","town":"Birkhadem","county":"Bir Mourad Raïs",
+"state":"Alger - الجزائر","postcode":"16330","country":"ⵍⵣⵣⴰⵢⴻⵔ الجزائر","country_code":"dz"},
+"boundingbox":["36.7167847","36.7182574","3.0418961","3.0437472"]}
+*/
+
+    }
 
     private String sendGetRequest(HttpUrl baseUrl) throws IOException {
         Response response = mClient.newCall(

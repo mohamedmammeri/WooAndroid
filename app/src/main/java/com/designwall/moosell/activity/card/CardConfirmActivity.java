@@ -1,20 +1,23 @@
 package com.designwall.moosell.activity.card;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.designwall.moosell.R;
 import com.designwall.moosell.config.Url;
 import com.designwall.moosell.db.DatabaseHelper;
 import com.designwall.moosell.model.Order.Order;
 import com.designwall.moosell.task.GetDataTask;
+import com.designwall.moosell.util.GeocoderNominatim;
 import com.designwall.moosell.util.Helper;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,12 +26,18 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.j256.ormlite.dao.Dao;
 
+import org.osmdroid.util.GeoPoint;
+
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CardConfirmActivity extends AppCompatActivity {
+
+    public static final int RESULT_GEOPOINT = 10;
 
     @BindView(R.id.etBillFirstName)
     EditText etBillFirstName;
@@ -70,10 +79,18 @@ public class CardConfirmActivity extends AppCompatActivity {
     @BindView(R.id.btnBack)
     Button btnBack;
 
+    @BindView(R.id.tvLocation)
+    TextView tvLocation;
+
+    @BindView(R.id.tvShippingCopy)
+    TextView tvShippingCopy;
+
     private Gson mGson;
 
     private DatabaseHelper dbHelper;
     private Dao<Order, Integer> orderDao;
+
+    private String country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,10 +139,75 @@ public class CardConfirmActivity extends AppCompatActivity {
             }
         });
 
+        tvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult( new Intent(getApplicationContext(), MapActivity.class), RESULT_GEOPOINT );
+            }
+        });
+
         // Load Shipping & Billing info
         loadInfo();
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RESULT_GEOPOINT){
+            switch (resultCode){
+                case RESULT_OK:
+                    GeoPoint point = new GeoPoint(data.getDoubleExtra("lat", 0.0d),
+                            data.getDoubleExtra("lon", 0.0d) );
+                    point.setAltitude(data.getDoubleExtra("alt", 0.0d));
+                    fillGeoCoderInfo(point);
+                    break;
+                case RESULT_CANCELED:
+                    break;
+            }
+        }
+    }
+
+    private void fillGeoCoderInfo(final GeoPoint point) {
+        Log.d("Test", "Geo: " + point.toString());
+        new AsyncTask<Void, Void, Address>() {
+            private Address address;
+            @Override
+            protected Address doInBackground(Void... voids) {
+                GeocoderNominatim geocoder = new GeocoderNominatim();
+                try
+                {
+                    List<Address> addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
+                    if (addresses.size() > 0) {
+                        address = addresses.get(0);
+//                        for (Address address : addresses) {
+//                            Log.d("Test", "CountryName: " + address.getCountryName());
+//                            Log.d("Test", "CountryCode: " + address.getCountryCode());
+//                            Log.d("Test", "PostalCode " + address.getPostalCode());
+//                            Log.d("Test", "City: " + address.getAdminArea());
+//                            Log.d("Test", "Locality: " + address.getLocality());
+//                            Log.d("Test", "Premises: " + address.getPremises()); //null
+//                            Log.d("Test", "SubAdminArea: " + address.getSubAdminArea());
+//                            Log.d("Test", "SubLocality: " + address.getSubLocality());
+//                            Log.d("Test", "Locale: " + address.getLocale());
+//                        }
+                    }
+                } catch(IOException e){
+                    Log.e("Test", "Error geocoder: " + e.getMessage());
+                }
+                return address;
+            }
+
+            @Override
+            protected void onPostExecute(Address address) {
+                if (address == null) return;
+                etBillCity.setText(address.getAdminArea());
+                etBillState.setText(address.getCountryName());
+                etBillAddress1.setText(address.getSubAdminArea()+", "+address.getLocality()+" - " +
+                        address.getCountryName());
+                etBillAddress2.setText(address.getSubLocality());
+                country = address.getCountryName();
+            }
+        }.execute();
     }
 
     private void loadInfo() {
@@ -171,7 +253,8 @@ public class CardConfirmActivity extends AppCompatActivity {
     }
 
     private void validateOrder(final int orderId) {
-        String country = Helper.getCountryISOCode(getApplicationContext());
+        if (country.isEmpty())
+            country = Helper.getCountryISOCode(getApplicationContext());
         String content = "{\n" +
                 "  \"order\": {\n" +
                 "    \"status\":\"processing\",\n" +
