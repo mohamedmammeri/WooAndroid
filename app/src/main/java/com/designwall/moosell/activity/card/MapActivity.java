@@ -73,6 +73,9 @@ public class MapActivity extends AppCompatActivity {
         mapView.setMultiTouchControls(true);
 
         getCurrentLocation();
+        longitude = getIntent().getDoubleExtra("longitude", longitude);
+        latitude = getIntent().getDoubleExtra("latitude", latitude);
+
         // Move the Map
         IMapController mapController = mapView.getController();
         mapController.setZoom(13.0);

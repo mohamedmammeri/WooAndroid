@@ -1,6 +1,7 @@
 package com.designwall.moosell.activity.card;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.os.AsyncTask;
@@ -16,6 +17,7 @@ import com.designwall.moosell.R;
 import com.designwall.moosell.config.Url;
 import com.designwall.moosell.db.DatabaseHelper;
 import com.designwall.moosell.model.Order.Order;
+import com.designwall.moosell.model.Order.OrderNote;
 import com.designwall.moosell.task.GetDataTask;
 import com.designwall.moosell.util.GeocoderNominatim;
 import com.designwall.moosell.util.Helper;
@@ -91,6 +93,7 @@ public class CardConfirmActivity extends AppCompatActivity {
     private Dao<Order, Integer> orderDao;
 
     private String country;
+    private GeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,8 +127,6 @@ public class CardConfirmActivity extends AppCompatActivity {
                             "Please provide your First and Last Name and a billing address.");
                     return;
                 }
-                // Save Shipping & Billing info
-                saveInfo();
                 validateOrder(orderId);
 
             }
@@ -142,7 +143,32 @@ public class CardConfirmActivity extends AppCompatActivity {
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult( new Intent(getApplicationContext(), MapActivity.class), RESULT_GEOPOINT );
+                Intent mapIntent = new Intent(getApplicationContext(), MapActivity.class);
+                mapIntent.putExtra("latitude", geoPoint.getLatitude());
+                mapIntent.putExtra("longitude", geoPoint.getLongitude());
+                startActivityForResult( mapIntent, RESULT_GEOPOINT );
+            }
+        });
+
+        tvShippingCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Helper.showDialog(CardConfirmActivity.this, "Copy Billing Info",
+                        "Do you want to copy Billing Info?", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                etShipFirstName.setText(etBillFirstName.getText().toString().trim());
+                                etShipLastName.setText(etBillLastName.getText().toString().trim());
+                                etShipAddress1.setText(etBillAddress1.getText().toString().trim());
+                                etShipAddress2.setText(etBillAddress2.getText().toString().trim());
+                                etShipCity.setText(etBillCity.getText().toString().trim());
+                                etShipState.setText(etBillState.getText().toString().trim());
+                                etShipCompany.setText(etBillCompany.getText().toString().trim());
+                            }
+                        }, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {}
+                        });
             }
         });
 
@@ -158,7 +184,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                 case RESULT_OK:
                     GeoPoint point = new GeoPoint(data.getDoubleExtra("lat", 0.0d),
                             data.getDoubleExtra("lon", 0.0d) );
-                    point.setAltitude(data.getDoubleExtra("alt", 0.0d));
+//                    point.setAltitude(data.getDoubleExtra("alt", 0.0d));
                     fillGeoCoderInfo(point);
                     break;
                 case RESULT_CANCELED:
@@ -168,6 +194,7 @@ public class CardConfirmActivity extends AppCompatActivity {
     }
 
     private void fillGeoCoderInfo(final GeoPoint point) {
+        geoPoint = point;
         Log.d("Test", "Geo: " + point.toString());
         new AsyncTask<Void, Void, Address>() {
             private Address address;
@@ -179,17 +206,6 @@ public class CardConfirmActivity extends AppCompatActivity {
                     List<Address> addresses = geocoder.getFromLocation(point.getLatitude(), point.getLongitude(), 1);
                     if (addresses.size() > 0) {
                         address = addresses.get(0);
-//                        for (Address address : addresses) {
-//                            Log.d("Test", "CountryName: " + address.getCountryName());
-//                            Log.d("Test", "CountryCode: " + address.getCountryCode());
-//                            Log.d("Test", "PostalCode " + address.getPostalCode());
-//                            Log.d("Test", "City: " + address.getAdminArea());
-//                            Log.d("Test", "Locality: " + address.getLocality());
-//                            Log.d("Test", "Premises: " + address.getPremises()); //null
-//                            Log.d("Test", "SubAdminArea: " + address.getSubAdminArea());
-//                            Log.d("Test", "SubLocality: " + address.getSubLocality());
-//                            Log.d("Test", "Locale: " + address.getLocale());
-//                        }
                     }
                 } catch(IOException e){
                     Log.e("Test", "Error geocoder: " + e.getMessage());
@@ -229,6 +245,9 @@ public class CardConfirmActivity extends AppCompatActivity {
         etShipAddress2.setText( Helper.loadString(this, "etShipAddress2"));
         etShipCity.setText( Helper.loadString(this, "etShipCity"));
         etShipState.setText( Helper.loadString(this, "etShipState"));
+        double latitude = Helper.loadDouble(this, "latitude", 0.0);
+        double longitude = Helper.loadDouble(this, "longitude", 0.0);
+        geoPoint = new GeoPoint(latitude, longitude);
     }
 
     private void saveInfo() {
@@ -250,6 +269,10 @@ public class CardConfirmActivity extends AppCompatActivity {
         Helper.saveString(this, "etShipAddress2", etShipAddress2.getText().toString().trim());
         Helper.saveString(this, "etShipCity", etShipCity.getText().toString().trim());
         Helper.saveString(this, "etShipState", etShipState.getText().toString().trim());
+        // GeoLocation Info
+        Helper.saveDouble(this, "latitude", geoPoint.getLatitude());
+        Helper.saveDouble(this, "longitude", geoPoint.getLongitude());
+
     }
 
     private void validateOrder(final int orderId) {
@@ -293,7 +316,11 @@ public class CardConfirmActivity extends AppCompatActivity {
                 "        \"method_title\": \"Flat Rate\",\n" +
                 "        \"total\":0\n" +
                 "      }\n" +
-                "    ]\n" +
+                "    ] \n" +
+/*                "    ,\"order_meta\":\n" +
+                "      {\n" +
+                "        \"destination\":\""+geoPoint.getLatitude()+","+geoPoint.getLongitude()+"\"\n" +
+                "      }\n" +*/
                 "  }\n" +
                 "}";
         Log.d("Test", "Content: " + content);
@@ -309,20 +336,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                         if (order != null && order.getStatus() != null){
                             Log.d("Test", "Order Info: " + order.toString());
                             if (order.getStatus().equals("processing")){
-                                if (Helper.saveInt(CardConfirmActivity.this, Helper.LAST_ORDER_ID, 0)){
-                                    setResult(Activity.RESULT_OK, getIntent());
-                                    if (orderDao != null){
-                                        try {
-                                            if (orderDao.create(order) > 0){
-                                                Log.d("Test", "Order saved with ID: " + order.getId());
-                                            }
-                                        } catch (SQLException e) {
-                                            Log.e("Test", "Error: " + e.getMessage());
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    finish();
-                                }
+                                sendOrderDestination(order);
                             } else {
                                 Log.d("Test", "Order ID: " + order.getId()+", Status: " + order.getStatus());
                             }
@@ -336,6 +350,53 @@ public class CardConfirmActivity extends AppCompatActivity {
                     }
             }
         }.execute(Url.getOrderId(orderId));
+    }
+
+    private void sendOrderDestination(final Order order){
+        // sending URL Google Map Address link something like: http://www.google.com/maps?daddr=36.7021411,3.0879278
+        String content = "{\n" +
+                "  \"order_note\": {\n" +
+                "    \"note\":\"<a href=\\\"http://www.google.com/maps?daddr="+geoPoint.getLatitude()+","+geoPoint.getLongitude()+"\\\">Destination</a>\"\n" +
+                "  }\n" +
+                "}";
+        Log.d("Test", "content: " + content);
+        new GetDataTask(GetDataTask.METHOD_POST, content) {
+            @Override
+            protected void onPostExecute(String[] result) {
+                super.onPostExecute(result);
+                if (result.length > 0 && (!result[0].isEmpty())) {
+                    Log.d("Test", "Result: " + result[0]);
+                    JsonElement jsonResponse = new JsonParser().parse(result[0]);
+                    JsonElement jsonOrderNote = jsonResponse.getAsJsonObject().get(Url.OBJ_NAME_ORDER_NOTE);
+                    OrderNote orderNote = mGson.fromJson(jsonOrderNote, new TypeToken<OrderNote>(){}.getType());
+                    if (orderNote != null){
+                        Log.d("Test", "OrderNote: " + orderNote.toString());
+                        if (Helper.saveInt(CardConfirmActivity.this, Helper.LAST_ORDER_ID, 0)){
+                            setResult(Activity.RESULT_OK, getIntent());
+                            if (orderDao != null){
+                                try {
+                                    if (orderDao.create(order) > 0){
+                                        Log.d("Test", "Order saved with ID: " + order.getId());
+                                    }
+                                } catch (SQLException e) {
+                                    Log.e("Test", "Error: " + e.getMessage());
+                                    e.printStackTrace();
+                                }
+                            }
+                            // Save Shipping & Billing info
+                            saveInfo();
+                            finish();
+                        }
+                    } else {
+                        JsonArray error = jsonResponse.getAsJsonObject().getAsJsonArray("errors");
+                        Helper.toastShort(CardConfirmActivity.this, "Error: "+ error.get(0).getAsJsonObject().get("message"));
+                        Log.d("Test", "OrderNote is null.");
+                    }
+                } else {
+                    Log.d("Test", "Result is empty");
+                }
+            }
+        }.execute(Url.getOrderNote(order.getId()));
     }
 
 }

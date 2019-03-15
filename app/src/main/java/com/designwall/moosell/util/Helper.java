@@ -112,6 +112,19 @@ public class Helper {
     }
 
     /**
+     * Save pairs key/value as an double
+     * @param context Context instance (usually refers to <b>this</b>)
+     * @param key key of map parameters (ex. userId)
+     * @param value the actual double value to save
+     */
+    public static boolean saveDouble(Context context, String key, Double value) {
+        SharedPreferences preferences = context.getSharedPreferences(context.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong(key, Double.doubleToRawLongBits(value));
+        return editor.commit();
+    }
+
+    /**
      * load pairs key/value as an integer (defaultValue cannot be null)
      * @param context Context instance (usually refers to <b>this</b>)
      * @param key key of map parameters (ex. username)
@@ -121,6 +134,18 @@ public class Helper {
     public static Integer loadInt(Context context, String key, Integer defaultValue) {
         SharedPreferences sharedPref = context.getSharedPreferences(context.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
         return sharedPref.getInt(key, defaultValue);
+    }
+
+    /**
+     * load pairs key/value as an double (defaultValue cannot be null)
+     * @param context Context instance (usually refers to <b>this</b>)
+     * @param key key of map parameters (ex. username)
+     * @param defaultValue default value used if key is not found (can be <b>null</b>)
+     * @return loaded double value
+     */
+    public static Double loadDouble(Context context, String key, Double defaultValue) {
+        SharedPreferences sharedPref = context.getSharedPreferences(context.getApplicationContext().getPackageName(), Context.MODE_PRIVATE);
+        return Double.longBitsToDouble(sharedPref.getLong(key, Double.doubleToRawLongBits(defaultValue)));
     }
 
     /**

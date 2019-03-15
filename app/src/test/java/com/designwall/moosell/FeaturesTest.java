@@ -235,6 +235,42 @@ public class FeaturesTest {
     }
 
     @Test
+    public void testPostOrderWithMeta() throws IOException {
+        HttpUrl baseUrl = server.url(URL+"orders");
+        String content = "{\n" +
+                "  \"order\": {\n" +
+                "    \"customer_id\": 0,\n" +
+                "    \"line_items\": [\n" +
+                "      {\n" +
+                "        \"product_id\": 10,\n" +
+                "        \"quantity\": 1\n" +
+                "      }\n" +
+                "    ]\n" +
+                "    ,\"order_meta\":\n" +
+                "      {\n" +
+                "        \"geolocation\": 10\n" +
+                "      }\n" +
+                "  }\n" +
+                "}";
+        String responseBody = sendPostRequest(baseUrl, content);
+        System.out.println(responseBody);
+/*
+{"order":{"id":76,"order_number":"76","order_key":"wc_order_nTWfPz72C3EJY","created_at":"2019-03-13T11:42:06Z","updated_at":"2019-03-13T11:42:06Z","completed_at":"1970-01-01T00:00:00Z","status":"pending","currency":"DZD","total":"280.00","subtotal":"280.00","total_line_items_quantity":1,"total_tax":"0.00","total_shipping":"0.00","cart_tax":"0.00","shipping_tax":"0.00","total_discount":"0.00","shipping_methods":"","payment_details":{"method_id":"","method_title":"","paid":false},"billing_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","email":"","phone":""},"shipping_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":""},"note":"","customer_ip":"192.168.1.10","customer_user_agent":"okhttp\/3.6.0","customer_id":0,"view_order_url":"http:\/\/192.168.1.10\/woocommerce\/my-account\/view-order\/76\/","line_items":[{"id":129,"subtotal":"280.00","subtotal_tax":"0.00","total":"280.00","total_tax":"0.00","price":"280.00","quantity":1,"tax_class":"","name":"Pizza Simple","product_id":10,"sku":"4","meta":[]}],"shipping_lines":[],"tax_lines":[],"fee_lines":[],"coupon_lines":[],"customer":{"id":0,"email":"","first_name":"","last_name":"","billing_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":"","email":"","phone":""},"shipping_address":{"first_name":"","last_name":"","company":"","address_1":"","address_2":"","city":"","state":"","postcode":"","country":""}}}}
+ */
+        assertTrue(responseBody.startsWith("{\"order\""));
+    }
+
+    @Test
+    public void testGetOrderWithMeta() throws IOException {
+//        HttpUrl baseUrl = server.url(URL+"orders/69?filter[meta]=true");
+        HttpUrl baseUrl = server.url(URL+"orders/69");
+        String responseBody = sendGetRequest(baseUrl);
+        System.out.println(responseBody);
+        assertTrue(responseBody.startsWith("{\"order\":"));
+//        assertTrue(responseBody.startsWith("{\"orders\":[{"));
+    }
+
+    @Test
     public void testUpdateOrder() throws IOException {
         HttpUrl baseUrl = server.url(URL+"orders/46");
         String content = "{\n" +
@@ -250,6 +286,35 @@ public class FeaturesTest {
         String responseBody = sendPutRequest(baseUrl, content);
         System.out.println(responseBody);
         assertTrue(responseBody.startsWith("{\"order\""));
+    }
+
+    @Test
+    public void testUpdateOrderWithMeta() throws IOException {
+        HttpUrl baseUrl = server.url(URL+"orders/76");
+        String content = "{\n" +
+                "  \"order\": {\n" +
+                "    \"order_meta\":\n" +
+                "      {\n" +
+                "        \"geolocation\":\"36.717,3.04208\"\n" +
+                "      }\n" +
+                "  }\n" +
+                "}";
+        String responseBody = sendPutRequest(baseUrl, content);
+        System.out.println(responseBody);
+        assertTrue(responseBody.startsWith("{\"order\""));
+    }
+
+    @Test
+    public void testAddNoteToOrder() throws IOException {
+        HttpUrl baseUrl = server.url(URL+"orders/90/notes");
+        String content = "{\n" +
+                "  \"order_note\": {\n" +
+                "    \"note\": \"<a href=\\\"http://www.google.com/maps?daddr=36.800316348381074,2.914767265319824\\\">Destination</a>\"\n" +
+                "  }\n" +
+                "}";
+        String responseBody = sendPostRequest(baseUrl, content);
+        System.out.println(responseBody);
+        assertTrue(responseBody.startsWith("{\"order_note\""));
     }
 
     @Test
@@ -298,7 +363,6 @@ public class FeaturesTest {
         System.out.println(responseBody);
         assertTrue(responseBody.startsWith("{\"order\":"));
     }
-
 
     @Test
     public void testGetOrderNotes() throws IOException {
