@@ -5,6 +5,7 @@ import android.util.Log;
 import com.designwall.moosell.R;
 import com.designwall.moosell.task.GetDataTask;
 import com.designwall.moosell.model.Product.ProductCategory;
+import com.designwall.moosell.util.Helper;
 import com.designwall.moosell.util.Network;
 import com.designwall.moosell.config.Url;
 import com.google.gson.Gson;
@@ -63,7 +64,7 @@ public class PresenterListCategory implements iPresenterListCategory {
                 protected void onPostExecute(String[] result) {
                     super.onPostExecute(result);
 //                    Log.dialog("Test", "Nbr of result: " + result.length);
-                    if ( result.length > 0 ) {
+                    if (result.length > 0) {
                         JsonElement jsonElement = new JsonParser().parse(result[0]).getAsJsonObject().get("errors");
                         if (jsonElement != null){
                             JsonArray jsonElements = jsonElement.getAsJsonArray();
@@ -71,7 +72,7 @@ public class PresenterListCategory implements iPresenterListCategory {
                                 JsonObject errorObject = jsonElements.get(i).getAsJsonObject();
                                 Log.d("Test", errorObject.get("code").toString());
                                 mView.setRefreshing(false);
-                                mView.showDialog("Error!!", errorObject.getAsJsonObject().get("message").toString());
+                                mView.showDialog( mView.getString(R.string.error), errorObject.getAsJsonObject().get("message").toString());
                             }
                             return;
                         }
@@ -82,7 +83,7 @@ public class PresenterListCategory implements iPresenterListCategory {
                         mView.setRefreshing(false);
                         mView.hideRecyclerViewShimmer();
                     } else {
-                        Log.d("Test", mView.getString(R.string.msg_empty_result));
+                        Log.d("Test", "Result is empty.");
                     }
                 }
 
@@ -90,7 +91,7 @@ public class PresenterListCategory implements iPresenterListCategory {
 
         } else{
             mView.setRefreshing(false);
-            mView.showDialog("Error!!", mView.getString(R.string.msg_no_connection));
+            mView.showDialog(mView.getString(R.string.error), mView.getString(R.string.msg_no_connection));
         }
     }
 }

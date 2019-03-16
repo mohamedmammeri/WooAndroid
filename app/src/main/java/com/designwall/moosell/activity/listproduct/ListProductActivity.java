@@ -140,7 +140,7 @@ public class ListProductActivity extends AppCompatActivity
         Log.d("Test", "Adding: " + product.toString()+", qte: " + qte);
         // We have to check Quantity first...
         if (product.getStock_quantity() > 0 && qte > product.getStock_quantity()){
-            Helper.showDialog(this, "Qte", "Insufficient quantity in Stock.");
+            Helper.showDialog(this, this.getString(R.string.qte), getString(R.string.insufficient_quantity));
             return false;
         }
         String httpMethod = GetDataTask.METHOD_POST;

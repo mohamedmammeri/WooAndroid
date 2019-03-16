@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.designwall.moosell.R;
@@ -40,6 +41,7 @@ public class CardActivity extends AppCompatActivity
     @BindView(R.id.tvTotal) TextView tvTotal;
     @BindView(R.id.btnConfirm) Button btnConfirm;
     @BindView(R.id.btnDelete) Button btnDelete;
+    @BindView(R.id.pbLoading) ProgressBar pbLoading;
 
     private List<LineItem> items;
     private Order mOrder;
@@ -63,7 +65,8 @@ public class CardActivity extends AppCompatActivity
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             Helper.showDialog(CardActivity.this, "Delete Order", "Do you want to delete this Order?",
+             Helper.showDialog(CardActivity.this, getString(R.string.delete_order),
+                     getString(R.string.delete_order_prompt),
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -80,7 +83,7 @@ public class CardActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 if (lvItems.getCount() == 0){
-                    Helper.showDialog(CardActivity.this, "Card Empty", "Card is Empty.");
+                    Helper.showDialog(CardActivity.this, getString(R.string.card_empty), getString(R.string.card_is_empty));
                 } else {
                     startCardConfirmActivity(lastOrderId);
                 }
@@ -127,6 +130,12 @@ public class CardActivity extends AppCompatActivity
     public void loadLastOrder(int lastOrderId) {
         new GetDataTask(GetDataTask.METHOD_GET) {
             @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showLoadingView(true);
+            }
+
+            @Override
             protected void onPostExecute(String[] result) {
                 super.onPostExecute(result);
                 if (result.length == 0){
@@ -143,8 +152,16 @@ public class CardActivity extends AppCompatActivity
                         Log.d("Test", "Result is empty");
                     }
                 }
+                showLoadingView(false);
             }
         }.execute(Url.getOrderId(lastOrderId));
+    }
+
+    public void showLoadingView(boolean on) {
+        pbLoading.setVisibility(on? View.VISIBLE: View.GONE);
+        lvItems.setVisibility(on? View.GONE: View.VISIBLE);
+        btnConfirm.setEnabled(!on);
+        btnDelete.setEnabled(!on);
     }
 
     private void fillOrderInfo(Order order) {
@@ -163,7 +180,7 @@ public class CardActivity extends AppCompatActivity
         if (requestCode == CARD_CONFIRM_RESULT)
             switch (resultCode){
                 case (RESULT_OK):
-                    Helper.toastShort(this, "Card validated.");
+                    Helper.toastLong(this, getString(R.string.card_validated));
                     finish();
                     break;
                 case RESULT_CANCELED:
@@ -177,7 +194,7 @@ public class CardActivity extends AppCompatActivity
         tvOrderNumber.setText( String.valueOf( order.getOrder_number() ));
         tvCreatedAt.setText( Helper.formatDate(order.getCreated_at()) );
         tvTotal.setText( order.getTotal() );
-//        tvStatus.setText( order.getStatus() );
+//        tvStatus.setText( OrderStatus.getLocalized(order.getStatus(), this) );
     }
 
 }

@@ -30,7 +30,8 @@ public class OnMenuButtonClickListener implements View.OnClickListener {
                     intent.putExtra(Helper.LAST_ORDER_ID, lastOrderId);
                     mContext.startActivity(intent);
                 } else {
-                    Helper.showDialog(mContext, "Order not found.", "No Order found");
+                    Helper.showDialog(mContext, mContext.getString(R.string.order_not_found),
+                            mContext.getString(R.string.no_order_found));
                     Log.d("Test", "lastOrderId not found: "+ lastOrderId);
                 }
                 break;

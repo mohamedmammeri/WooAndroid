@@ -1,5 +1,6 @@
 package com.designwall.moosell.activity.card;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -112,7 +113,8 @@ public class CardConfirmActivity extends AppCompatActivity {
 
         final int orderId = getIntent().getIntExtra(Helper.LAST_ORDER_ID, 0);
         if (orderId == 0){
-            Helper.showDialog(this, "Missing Order", "Could not found Order Number");
+            Helper.showDialog(this, getString(R.string.missing_order),
+                    getString(R.string.order_number_not_found));
             finish();
             return;
         }
@@ -123,8 +125,8 @@ public class CardConfirmActivity extends AppCompatActivity {
                 if ( etBillFirstName.getText().toString().trim().isEmpty() ||
                         etBillLastName.getText().toString().trim().isEmpty() ||
                         etBillAddress1.getText().toString().trim().isEmpty() ){
-                    Helper.showDialog(CardConfirmActivity.this, "Invalid Information",
-                            "Please provide your First and Last Name and a billing address.");
+                    Helper.showDialog(CardConfirmActivity.this, getString(R.string.invalid_info),
+                            getString(R.string.prompt_provide_info));
                     return;
                 }
                 validateOrder(orderId);
@@ -153,8 +155,8 @@ public class CardConfirmActivity extends AppCompatActivity {
         tvShippingCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Helper.showDialog(CardConfirmActivity.this, "Copy Billing Info",
-                        "Do you want to copy Billing Info?", new DialogInterface.OnClickListener() {
+                Helper.showDialog(CardConfirmActivity.this, getString(R.string.copy_billing_info),
+                        getString(R.string.copy_billing_info_prompt), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 etShipFirstName.setText(etBillFirstName.getText().toString().trim());
@@ -275,6 +277,7 @@ public class CardConfirmActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void validateOrder(final int orderId) {
         if (country.isEmpty())
             country = Helper.getCountryISOCode(getApplicationContext());
@@ -342,7 +345,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                             }
                         } else {
                             JsonArray error = jsonResponse.getAsJsonObject().getAsJsonArray("errors");
-                            Helper.toastShort(CardConfirmActivity.this, "Error: "+ error.get(0).getAsJsonObject().get("message"));
+                            Helper.toastShort(CardConfirmActivity.this,getString(R.string.error)+": "+ error.get(0).getAsJsonObject().get("message"));
                             Log.d("Test", "Order is null.");
                         }
                     } else {
@@ -352,6 +355,7 @@ public class CardConfirmActivity extends AppCompatActivity {
         }.execute(Url.getOrderId(orderId));
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void sendOrderDestination(final Order order){
         // sending URL Google Map Address link something like: http://www.google.com/maps?daddr=36.7021411,3.0879278
         String content = "{\n" +
@@ -389,7 +393,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                         }
                     } else {
                         JsonArray error = jsonResponse.getAsJsonObject().getAsJsonArray("errors");
-                        Helper.toastShort(CardConfirmActivity.this, "Error: "+ error.get(0).getAsJsonObject().get("message"));
+                        Helper.toastShort(CardConfirmActivity.this, getString(R.string.error)+": "+ error.get(0).getAsJsonObject().get("message"));
                         Log.d("Test", "OrderNote is null.");
                     }
                 } else {

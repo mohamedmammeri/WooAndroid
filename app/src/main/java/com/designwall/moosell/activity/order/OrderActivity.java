@@ -48,8 +48,8 @@ public class OrderActivity extends AppCompatActivity
         }
 
         if (orders.isEmpty()){
-            Helper.showDialog(this, "No Order",
-                    "Order History is Empty");
+            Helper.showDialog(this, getString(R.string.no_order),
+                    getString(R.string.order_history_empty));
             finish();
             return;
         }
@@ -66,7 +66,9 @@ public class OrderActivity extends AppCompatActivity
         startActivity(orderDetail);
     }
 
-/*    @Override
+/*
+    // Delete Order Record from local database
+    @Override
     public boolean deleteOrderRecord(int orderId) {
         try {
 //            Order order = orderDao.queryForId(orderId);

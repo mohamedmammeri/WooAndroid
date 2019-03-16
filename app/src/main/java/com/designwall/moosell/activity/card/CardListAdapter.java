@@ -64,7 +64,7 @@ public class CardListAdapter extends ArrayAdapter<LineItem>
                 editLineItem(lineItem);
                 break;
             case R.id.ivDelete:
-                Helper.showDialog(mContext, "Delete Item", "Do you want to delete this item?",
+                Helper.showDialog(mContext, mContext.getString(R.string.delete_item), mContext.getString(R.string.delete_item_prompt),
                         new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

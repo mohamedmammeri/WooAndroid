@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import com.designwall.moosell.adapter.OrderDetailAdapter;
 import com.designwall.moosell.config.Url;
 import com.designwall.moosell.model.Order.Order;
 import com.designwall.moosell.model.Order.OrderNote;
+import com.designwall.moosell.model.Order.OrderStatus;
 import com.designwall.moosell.model.Order.subclass.LineItem;
 import com.designwall.moosell.model.Product.Product;
 import com.designwall.moosell.task.GetDataTask;
@@ -53,6 +55,9 @@ public class OrderDetailActivity extends AppCompatActivity {
     @BindView(R.id.tvOrderNotes)
     TextView tvOrderNotes;
 
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
+
     @BindView(R.id.btnReOrder)
     Button btnReOrder;
 
@@ -70,7 +75,7 @@ public class OrderDetailActivity extends AppCompatActivity {
 
         final int orderId = getIntent().getIntExtra(Helper.HISTORY_ORDER_ID, 0);
         if (orderId <= 0){
-            Helper.showDialog(this, "Error", "Order not found");
+            Helper.showDialog(this, getString(R.string.error), getString(R.string.order_not_found));
             finish();
         }
 
@@ -81,20 +86,25 @@ public class OrderDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (lastOrderId > 0){
                     Helper.showDialog(OrderDetailActivity.this,
-                            "Order Opened", "Order N°: " + lastOrderId+" is already open.");
+                            getString(R.string.order_opened), getString(R.string.order_number_already_opened, lastOrderId));
                 } else {
-                    Helper.toastShort(getApplicationContext(), "Creating a new Order");
+                    Helper.toastShort(getApplicationContext(), getString(R.string.creating_order));
                     createOrderFrom();
                 }
             }
         });
-
         loadOrder(orderId);
-
     }
 
     private void loadOrder(int orderId){
         new GetDataTask(GetDataTask.METHOD_GET) {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showLoadingView(true);
+            }
+
             @Override
             protected void onPostExecute(String[] result) {
                 super.onPostExecute(result);
@@ -113,8 +123,15 @@ public class OrderDetailActivity extends AppCompatActivity {
                 } else {
                     Log.d("Test", "Result is empty");
                 }
+                showLoadingView(false);
             }
         }.execute(Url.getOrderId(orderId));
+    }
+
+    public void showLoadingView(boolean on) {
+        pbLoading.setVisibility(on? View.VISIBLE: View.GONE);
+        lvOrderItems.setVisibility(on? View.GONE: View.VISIBLE);
+        btnReOrder.setEnabled(!on);
     }
 
     private void fillOrderInfo(Order order) {
@@ -164,7 +181,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     public void updateOrderInfo(Order order) {
         tvOrderDetailNumber.setText( String.valueOf( order.getOrder_number() ));
         tvOrderCreatedAt.setText( Helper.formatDate(order.getCreated_at()) );
-        tvOrderStatus.setText( order.getStatus() );
+        tvOrderStatus.setText( OrderStatus.getLocalized(order.getStatus(), this) );
         tvOrderTotal.setText( order.getTotal() );
         loadOrderNotes(order.getId());
     }

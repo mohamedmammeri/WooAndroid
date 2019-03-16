@@ -112,7 +112,7 @@ public class MapActivity extends AppCompatActivity {
                 // Show an explanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
-                Helper.showDialog(this, "Request Permission", "GPS Location permission required.");
+                Helper.showDialog(this, getString(R.string.request_permission), getString(R.string.request_permission_prompt));
             } else {
                 // No explanation needed; request the permission
                 ActivityCompat.requestPermissions(this,new String[] {
