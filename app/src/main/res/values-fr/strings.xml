@@ -12,14 +12,14 @@
     <string name="delete">Supprimer</string>
     <string name="billing_information">Informations de facturation</string>
     <string name="shipping_information">Informations de livraison</string>
-    <string name="first_name">Prénom</string>
-    <string name="last_name">Nom</string>
+    <string name="first_name">Prénom*</string>
+    <string name="last_name">Nom*</string>
     <string name="address_1">Adresse 1</string>
     <string name="address_2">Adresse 2</string>
     <string name="city">Cité</string>
     <string name="state">Etat</string>
     <string name="email">Email</string>
-    <string name="phone">Tél.</string>
+    <string name="phone">Tél*.</string>
     <string name="validate">Valider</string>
     <string name="cancel">Annuler</string>
     <string name="company">Société</string>
@@ -46,6 +46,7 @@
     <string name="processing">En cours</string>
     <string name="delete_order">Supprimer la commande</string>
     <string name="delete_order_prompt">Voulez-vous vraiment supprimer cette commande?</string>
+    <string name="cannot_delete_order">Désolé, il est impossible de supprimer cette commande.</string>
     <string name="missing_order">Commande introuvable</string>
     <string name="order_number_not_found">Numéro de la commande est introuvable</string>
     <string name="invalid_info">Informations non valide</string>
@@ -64,6 +65,8 @@
     <string name="error">Erreur</string>
     <string name="order_opened">Commande ouverte</string>
     <string name="order_number_already_opened">Une autre commende N° %d est déjà ouverte</string>
-    <string name="creating_order">Création d\'une nouvelle commande</string>
+    <string name="creating_order">Création d\'une nouvelle commande…</string>
     <string name="card_validated">Commande validée</string>
+    <string name="delete_order_history_title">Supprimer l\'historique de la commande</string>
+    <string name="delete_order_history_prompt">Voulez-vous vraiment supprimer de l\'historique cette commande?</string>
 </resources>

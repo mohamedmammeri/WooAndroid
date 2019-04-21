@@ -91,7 +91,7 @@ public class GetDataTask extends AsyncTask<String, Integer, String[]> {
                                 .build();
                         break;
                     case METHOD_DELETE:
-                        Log.d("Test", "Delete with: " + mMethod);
+                        //Log.d("Test", "Delete with: " + mMethod);
                         request = new Request.Builder()
                                 .url(urls[i])
                                 .delete()

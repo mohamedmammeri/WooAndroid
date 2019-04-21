@@ -165,7 +165,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                                     notes.append(Helper.formatDate(orderNote.getCreated_at()) + ": " +
                                             orderNote.getNote().trim() + "\n");
                             }
-                            if (notes.toString().isEmpty())
+                            if (notes.toString().trim().isEmpty())
                                 tvOrderNotes.setText(getApplicationContext().getString(R.string.order_no_notes));
                             else
                                 tvOrderNotes.setText(notes.toString());
@@ -210,6 +210,13 @@ public class OrderDetailActivity extends AppCompatActivity {
                 "}}";
         Log.d("Test", requestBody);
         new GetDataTask(GetDataTask.METHOD_POST, requestBody) {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showLoadingView(true);
+            }
+
             @Override
             protected void onPostExecute(String[] result) {
                 super.onPostExecute(result);
@@ -229,6 +236,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     } else {
                         Log.d("Test", "Result is empty");
                     }
+                showLoadingView(false);
             }
 
         }.execute(Url.getOrders());

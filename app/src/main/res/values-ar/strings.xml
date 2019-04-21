@@ -12,14 +12,14 @@
     <string name="delete">حذف</string>
     <string name="billing_information">بيانات الطلبية</string>
     <string name="shipping_information">بيانات الشحن</string>
-    <string name="first_name">الإسم</string>
-    <string name="last_name">اللقب</string>
+    <string name="first_name">الإسم*</string>
+    <string name="last_name">اللقب*</string>
     <string name="address_1">العنوان 1</string>
     <string name="address_2">العنوان 2</string>
     <string name="city">البلدة</string>
     <string name="state">الولاية</string>
     <string name="email">البريد</string>
-    <string name="phone">الهاتف</string>
+    <string name="phone">الهاتف*</string>
     <string name="validate">تأكيد</string>
     <string name="cancel">إلغاء</string>
     <string name="company">الشركة</string>
@@ -46,6 +46,7 @@
     <string name="failed">خاطئة</string>
     <string name="delete_order">إلغاء الطلبية</string>
     <string name="delete_order_prompt">هل ترغب فعلا بإلغاء هذه الطلبية؟</string>
+    <string name="cannot_delete_order">عذرا، لا يمكن حذف هذه الطلبية</string>
     <string name="missing_order">طلبية غير معروفة</string>
     <string name="order_number_not_found">لم يتم العثور على رقم الطلبية</string>
     <string name="invalid_info">بيانات خاطئة</string>
@@ -64,6 +65,8 @@
     <string name="error">خطأ</string>
     <string name="order_opened">طلبية مفتوحة</string>
     <string name="order_number_already_opened">طلبية برقم %d لا تزال قيد التحرير</string>
-    <string name="creating_order">إنشاء طلبية جديدة</string>
+    <string name="creating_order">إنشاء طلبية جديدة…</string>
     <string name="card_validated">تم تأكيد الطلبية</string>
+    <string name="delete_order_history_title">حذف طلبية من سجل الطلبيات</string>
+    <string name="delete_order_history_prompt">هل ترغب فعلا بحذف هذه الطلبية من سجل الطلبيات؟</string>
 </resources>

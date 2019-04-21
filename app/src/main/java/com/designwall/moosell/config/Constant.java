@@ -12,8 +12,7 @@ public class Constant {
 
     public static final String CONSUMER_KEY     = "ck_b00ed47c23037e0a4472fc22b42c197585cad4f7";
     public static final String CONSUMER_SECRET  = "cs_2e447bc3f81ce490ff94284ff636fd5a268f7a34";
-    public static final String HOST = "http://192.168.1.3/woocommerce";
-
+    public static final String HOST = "http://192.168.43.106/woocommerce";
 
     public static final String API_VER          = "/wc-api/v3/"; //working (old way the current used one)
 //    public static final String API_VER          = "/wp-json/wp/v2/"; // working

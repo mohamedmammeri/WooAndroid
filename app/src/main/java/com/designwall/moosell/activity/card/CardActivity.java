@@ -104,6 +104,11 @@ public class CardActivity extends AppCompatActivity
                 super.onPostExecute(result);
                 if (result.length > 0 && (!result[0].isEmpty())) {
                     Log.d("Test", "Result: " + result[0]);
+                    JsonElement jsonElement = new JsonParser().parse(result[0]).getAsJsonObject().get("errors");
+                    if (jsonElement != null){
+                        Helper.toastLong(CardActivity.this, getString(R.string.cannot_delete_order));
+                        return;
+                    }
                     JsonElement jsonMessage = new JsonParser().parse(result[0]).getAsJsonObject().get(Url.OBJ_NAME_MESSAGE);
                     if (jsonMessage == null) {
                         Log.d("Test", "jsonMessage is NULL");

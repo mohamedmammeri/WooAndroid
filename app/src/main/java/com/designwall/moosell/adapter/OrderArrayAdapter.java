@@ -28,11 +28,11 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 
 public class OrderArrayAdapter extends ArrayAdapter<Order>
-        implements View.OnClickListener/*, View.OnLongClickListener*/ {
+        implements View.OnClickListener, View.OnLongClickListener {
 
     public interface OnOrderClick {
         void showOrderDetail(int orderId);
-//        boolean deleteOrderRecord(int orderId);
+        boolean deleteOrderRecord(int orderId);
     }
 
     private Context mContext;
@@ -84,7 +84,7 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
         viewHolder.tvOrder.setText(String.format("N°:%d (%s)", order.getId(),
                 Helper.formatDate(order.getCreated_at())));
         viewHolder.tvOrder.setOnClickListener(this);
-//        viewHolder.tvOrder.setOnLongClickListener(this);
+        viewHolder.tvOrder.setOnLongClickListener(this);
         viewHolder.tvOrder.setTag(position);
         viewHolder.tvOrderTotal.setText(order.getTotal());
         viewHolder.ivInfo.setOnClickListener(this);
@@ -106,18 +106,20 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
         }
     }
 
-/*    @Override
+    @Override
     public boolean onLongClick(View v) {
         final int position = (Integer) v.getTag();
         final Order order = getItem(position);
         if (v.getId() == R.id.tvOrder){
-            Helper.showDialog(mContext, "Delete Order History",
-                    "Do you want to delete this Order History?",
+            Helper.showDialog(mContext, mContext.getString(R.string.delete_order_history_title),
+                    mContext.getString(R.string.delete_order_history_prompt)+" (N°"+order.getId()+")",
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (((OnOrderClick) mContext).deleteOrderRecord(order.getId())){
-                                notifyDataSetChanged();
+                                Log.d("Test", "Order N°"+order.getId()+ " deleted.");
+                                remove(order);
+//                                notifyDataSetChanged(); // true by default
                             }
                         }
                     }, new DialogInterface.OnClickListener() {
@@ -128,7 +130,7 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
                     });
         }
         return false;
-    }*/
+    }
 
     private void showOrderNotes(final int orderId){
         new GetDataTask(GetDataTask.METHOD_GET) {
@@ -152,6 +154,8 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
                                         notes.append(Helper.formatDate(orderNote.getCreated_at()) + ": " +
                                                 orderNote.getNote().trim() + "\n");
                                 }
+                                if (notes.toString().trim().isEmpty())
+                                    notes.append(mContext.getString(R.string.order_no_notes));
                                 Helper.showDialog(mContext, mContext.getString(R.string.order_num) + orderId,
                                         mContext.getString(R.string.order_notes) + "\n" + notes.toString());
                             }

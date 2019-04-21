@@ -66,7 +66,7 @@ public class OrderActivity extends AppCompatActivity
         startActivity(orderDetail);
     }
 
-/*
+
     // Delete Order Record from local database
     @Override
     public boolean deleteOrderRecord(int orderId) {
@@ -83,6 +83,6 @@ public class OrderActivity extends AppCompatActivity
             e.printStackTrace();
         }
         return false;
-    }*/
+    }
 
 }

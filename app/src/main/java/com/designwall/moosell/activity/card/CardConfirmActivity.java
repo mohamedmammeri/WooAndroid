@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.designwall.moosell.R;
@@ -88,12 +90,18 @@ public class CardConfirmActivity extends AppCompatActivity {
     @BindView(R.id.tvShippingCopy)
     TextView tvShippingCopy;
 
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
+
+    @BindView(R.id.layoutButtons)
+    LinearLayout layoutButtons;
+
     private Gson mGson;
 
     private DatabaseHelper dbHelper;
     private Dao<Order, Integer> orderDao;
 
-    private String country;
+    private String country = "";
     private GeoPoint geoPoint;
 
     @Override
@@ -124,7 +132,7 @@ public class CardConfirmActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if ( etBillFirstName.getText().toString().trim().isEmpty() ||
                         etBillLastName.getText().toString().trim().isEmpty() ||
-                        etBillAddress1.getText().toString().trim().isEmpty() ){
+                        etPhone.getText().toString().trim().isEmpty()){
                     Helper.showDialog(CardConfirmActivity.this, getString(R.string.invalid_info),
                             getString(R.string.prompt_provide_info));
                     return;
@@ -179,6 +187,13 @@ public class CardConfirmActivity extends AppCompatActivity {
 
     }
 
+    public void showLoadingView(boolean on) {
+        pbLoading.setVisibility(on? View.VISIBLE: View.GONE);
+        btnValidate.setEnabled(!on);
+        layoutButtons.setVisibility(on? View.GONE: View.VISIBLE);
+//        btnBack.setEnabled(!on);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RESULT_GEOPOINT){
@@ -200,6 +215,12 @@ public class CardConfirmActivity extends AppCompatActivity {
         Log.d("Test", "Geo: " + point.toString());
         new AsyncTask<Void, Void, Address>() {
             private Address address;
+
+            @Override
+            protected void onPreExecute() {
+                showLoadingView(true);
+            }
+
             @Override
             protected Address doInBackground(Void... voids) {
                 GeocoderNominatim geocoder = new GeocoderNominatim();
@@ -224,6 +245,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                         address.getCountryName());
                 etBillAddress2.setText(address.getSubLocality());
                 country = address.getCountryName();
+                showLoadingView(false);
             }
         }.execute();
     }
@@ -279,7 +301,7 @@ public class CardConfirmActivity extends AppCompatActivity {
 
     @SuppressLint("StaticFieldLeak")
     private void validateOrder(final int orderId) {
-        if (country.isEmpty())
+        if (country != null && country.isEmpty())
             country = Helper.getCountryISOCode(getApplicationContext());
         String content = "{\n" +
                 "  \"order\": {\n" +
@@ -328,6 +350,13 @@ public class CardConfirmActivity extends AppCompatActivity {
                 "}";
         Log.d("Test", "Content: " + content);
         new GetDataTask(GetDataTask.METHOD_PUT, content) {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showLoadingView(true);
+            }
+
             @Override
             protected void onPostExecute(String[] result) {
                 super.onPostExecute(result);
@@ -351,6 +380,7 @@ public class CardConfirmActivity extends AppCompatActivity {
                     } else {
                         Log.d("Test", "Result is empty");
                     }
+                showLoadingView(false);
             }
         }.execute(Url.getOrderId(orderId));
     }
