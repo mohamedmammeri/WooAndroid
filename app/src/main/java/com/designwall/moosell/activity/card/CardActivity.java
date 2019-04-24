@@ -1,5 +1,6 @@
 package com.designwall.moosell.activity.card;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -97,8 +98,17 @@ public class CardActivity extends AppCompatActivity
         startActivityForResult(intent, CARD_CONFIRM_RESULT);
     }
 
+
+    @SuppressLint("StaticFieldLeak")
     private void deleteOrder(final int orderId) {
         new GetDataTask(GetDataTask.METHOD_DELETE) {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                showLoadingView(true);
+            }
+
             @Override
             protected void onPostExecute(String[] result) {
                 super.onPostExecute(result);
@@ -107,23 +117,25 @@ public class CardActivity extends AppCompatActivity
                     JsonElement jsonElement = new JsonParser().parse(result[0]).getAsJsonObject().get("errors");
                     if (jsonElement != null){
                         Helper.toastLong(CardActivity.this, getString(R.string.cannot_delete_order));
+                        showLoadingView(false);
                         return;
                     }
                     JsonElement jsonMessage = new JsonParser().parse(result[0]).getAsJsonObject().get(Url.OBJ_NAME_MESSAGE);
                     if (jsonMessage == null) {
+                        Helper.toastLong(CardActivity.this, getString(R.string.cannot_delete_order));
                         Log.d("Test", "jsonMessage is NULL");
                     } else {
-                        Log.d("Test", jsonMessage.getAsString() + ", ID: " + orderId);
-                        if (jsonMessage.getAsString().equals("Deleted order") ||
-                                jsonMessage.getAsString().equals("Permanently deleted order")){
+                        if (!jsonMessage.toString().isEmpty()){
                             if (Helper.saveInt(CardActivity.this, Helper.LAST_ORDER_ID, 0)){
-//                                Log.d("Test", "lastOrderID saved: 0");
+                                Helper.toastShort(CardActivity.this, jsonMessage.toString());
+                                Log.d("Test", jsonMessage.getAsString() + ", ID: " + orderId);
                                 finish();
                             }
                         } else {
                             Log.d("Test", "Could not delete: " + jsonMessage.toString());
                         }
                     }
+                    showLoadingView(false);
                 } else {
                     Log.d("Test", "Result is empty");
                 }
