@@ -65,6 +65,7 @@ public class GetDataTask extends AsyncTask<String, Integer, String[]> {
     protected String[] doInBackground(String... urls) {
         String[] result = new String[urls.length];
         for (int i = 0; i < urls.length; i++) {
+//            Log.d("Test", "URL: " + urls[i]);
             Request request = null;
 //            Log.v("Test", BASIC_AUTH);
             try {

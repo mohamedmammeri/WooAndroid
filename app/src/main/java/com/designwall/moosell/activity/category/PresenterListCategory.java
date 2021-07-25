@@ -63,8 +63,9 @@ public class PresenterListCategory implements iPresenterListCategory {
                 @Override
                 protected void onPostExecute(String[] result) {
                     super.onPostExecute(result);
-//                    Log.dialog("Test", "Nbr of result: " + result.length);
+                    Log.d("Test", "Nbr of result: " + result.length);
                     if (result.length > 0) {
+                        Log.d("Test", result[0].toString());
                         JsonElement jsonElement = new JsonParser().parse(result[0]).getAsJsonObject().get("errors");
                         if (jsonElement != null){
                             JsonArray jsonElements = jsonElement.getAsJsonArray();

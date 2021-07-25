@@ -8,7 +8,7 @@
         </compositeConfiguration>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle/4.6" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../gradle/current" />
         <option name="resolveModulePerSourceSet" value="false" />
       </GradleProjectSettings>
     </option>
