@@ -11,7 +11,8 @@ public enum OrderStatus {
     COMPLETED("completed"),
     CANCELLED("cancelled"),
     REFUNDED("refunded"),
-    FAILED("failed");
+    FAILED("failed"),
+    TRASH("trash");
 
     private final String value;
 

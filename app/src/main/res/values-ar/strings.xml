@@ -34,8 +34,9 @@
     <string name="order_notes">ملاحظات</string>
     <string name="reorder">إعادة الطلبية</string>
     <string name="title_activity_card_confirm">تأكيد الطلبية</string>
-    <string name="items">منتجات</string>
+    <string name="items"> منتج</string>
     <string name="order_not_found">لا توجد طلبيات</string>
+    <string name="order_is_empty">طلبية فارغة</string>
     <string name="no_order_found">لم يتم العثور على أي طلبية</string>
     <string name="pending">في انتظار الدفع</string>
     <string name="processing">جاري التحضير</string>
@@ -44,6 +45,7 @@
     <string name="cancelled">ملغاة</string>
     <string name="refunded">معوضة</string>
     <string name="failed">خاطئة</string>
+    <string name="trash">محذوفة</string>
     <string name="delete_order">إلغاء الطلبية</string>
     <string name="delete_order_prompt">هل ترغب فعلا بإلغاء هذه الطلبية؟</string>
     <string name="cannot_delete_order">عذرا، لا يمكن حذف هذه الطلبية</string>

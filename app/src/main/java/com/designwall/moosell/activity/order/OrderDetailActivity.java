@@ -142,6 +142,7 @@ public class OrderDetailActivity extends AppCompatActivity {
             lvOrderItems.setAdapter(new OrderDetailAdapter(this, mItems));
         } else {
             Log.d("Test", "LineItems is empty");
+            Toast.makeText(getApplicationContext(), getString(R.string.order_is_empty), Toast.LENGTH_SHORT);
         }
     }
 

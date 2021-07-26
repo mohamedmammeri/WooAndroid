@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.designwall.moosell.R;
 import com.designwall.moosell.adapter.OrderArrayAdapter;
@@ -34,29 +35,38 @@ public class OrderActivity extends AppCompatActivity
         ButterKnife.bind(this);
 
         dbHelper = new DatabaseHelper(this);
-        List<Order> orders = new ArrayList<Order>();
         try {
             orderDao = dbHelper.getDao();
+        } catch (SQLException e) {
+            Log.e("Test", "Error: " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<Order> orders = new ArrayList<Order>();
+        try {
             orders.addAll( orderDao.queryForAll() );
             Log.d("Test", "Nbr of Orders: " + orders.size());
-            for (Order o: orders){
-                Log.d("Test", "Order: " + o.toString());
-            }
+//            for (Order o: orders){
+//                Log.d("Test", "Order: " + o.toString());
+//            }
 
         } catch (SQLException e) {
             Log.e("Test", "Error: " + e.getMessage());
         }
 
         if (orders.isEmpty()){
-            Helper.showDialog(this, getString(R.string.no_order),
-                    getString(R.string.order_history_empty));
+            Toast.makeText(getApplicationContext(), getString(R.string.order_history_empty), Toast.LENGTH_SHORT).show();
+//            Helper.showDialog(this, getString(R.string.no_order),
+//                    getString(R.string.order_history_empty));
             finish();
-            return;
+//            return;
+        } else {
+            OrderArrayAdapter adapter = new OrderArrayAdapter(this, orders);
+            lvOrders.setAdapter(adapter);
         }
-
-        OrderArrayAdapter adapter = new OrderArrayAdapter(this, orders);
-        lvOrders.setAdapter(adapter);
-
     }
 
     @Override

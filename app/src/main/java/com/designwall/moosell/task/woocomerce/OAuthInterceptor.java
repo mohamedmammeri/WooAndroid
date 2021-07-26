@@ -81,7 +81,10 @@ public final class OAuthInterceptor implements Interceptor {
         Log.d("nonce", nonce);
         Log.d("time", timestamp);
 
-        String dynamicStructureUrl = original.url().scheme() + "://" + original.url().host()+":"+original.url().port() + original.url().encodedPath();
+
+        String dynamicStructureUrl = (original.url().port()==80?original.url().scheme() + "://" + original.url().host()+original.url().encodedPath()
+                :original.url().scheme() + "://" + original.url().host()+":"+original.url().port() + original.url().encodedPath()
+        );
 
         Log.d("ENCODED PATH", ""+dynamicStructureUrl);
         String firstBaseString = original.method() + "&" + urlEncoded(dynamicStructureUrl);
