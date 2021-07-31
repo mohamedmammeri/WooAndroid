@@ -18,9 +18,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activity.card.MapActivity"></activity>
         <activity android:name=".activity.order.OrderDetailActivity" />
         <activity android:name=".activity.order.OrderActivity" />
+
         <activity
             android:name=".activity.card.CardConfirmActivity"
             android:label="@string/title_activity_card_confirm"
@@ -30,13 +32,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.designwall.moosell.activity.card.CardActivity" />
         </activity>
-        <activity android:name=".activity.category.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
+        <activity
+            android:name=".activity.category.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".activity.listproduct.ListProductActivity" />
         <activity android:name=".activity.card.CardActivity" />
     </application>
