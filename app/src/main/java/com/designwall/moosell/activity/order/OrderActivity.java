@@ -58,11 +58,9 @@ public class OrderActivity extends AppCompatActivity
         }
 
         if (orders.isEmpty()){
-            Toast.makeText(getApplicationContext(), getString(R.string.order_history_empty), Toast.LENGTH_SHORT).show();
-//            Helper.showDialog(this, getString(R.string.no_order),
-//                    getString(R.string.order_history_empty));
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.order_history_empty), Toast.LENGTH_SHORT).show();
             finish();
-//            return;
         } else {
             OrderArrayAdapter adapter = new OrderArrayAdapter(this, orders);
             lvOrders.setAdapter(adapter);

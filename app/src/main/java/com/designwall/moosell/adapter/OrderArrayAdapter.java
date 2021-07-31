@@ -1,5 +1,6 @@
 package com.designwall.moosell.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
+import java.util.Locale;
 
 public class OrderArrayAdapter extends ArrayAdapter<Order>
         implements View.OnClickListener, View.OnLongClickListener {
@@ -81,7 +83,7 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tvOrder.setText(String.format("N°:%d (%s)", order.getId(),
+        viewHolder.tvOrder.setText(String.format(Locale.getDefault(), "N°:%d (%s)", order.getId(),
                 Helper.formatDate(order.getCreated_at())));
         viewHolder.tvOrder.setOnClickListener(this);
         viewHolder.tvOrder.setOnLongClickListener(this);
@@ -132,7 +134,10 @@ public class OrderArrayAdapter extends ArrayAdapter<Order>
         return false;
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void showOrderNotes(final int orderId){
+        Helper.toastShort(mContext, String.format(Locale.getDefault(),
+                mContext.getString(R.string.loading_notes_for_order_id), orderId));
         new GetDataTask(GetDataTask.METHOD_GET) {
             @Override
             protected void onPostExecute(String[] result) {

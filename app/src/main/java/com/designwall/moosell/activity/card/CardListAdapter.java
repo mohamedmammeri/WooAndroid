@@ -1,5 +1,6 @@
 package com.designwall.moosell.activity.card;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
@@ -78,7 +79,9 @@ public class CardListAdapter extends ArrayAdapter<LineItem>
         }
     }
 
+    @SuppressLint("StaticFieldLeak")
     private void editLineItem(final LineItem lineItem) {
+        Helper.toastShort(mContext, mContext.getString(R.string.edit_line_item)+lineItem.getName()+" ...");
         new GetDataTask(GetDataTask.METHOD_GET) {
             @Override
             protected void onPostExecute(String[] result) {

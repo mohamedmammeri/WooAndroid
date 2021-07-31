@@ -71,4 +71,6 @@
     <string name="card_validated">Commande validée</string>
     <string name="delete_order_history_title">Supprimer l\'historique de la commande</string>
     <string name="delete_order_history_prompt">Voulez-vous vraiment supprimer de l\'historique cette commande?</string>
+    <string name="loading_notes_for_order_id">Chargement des notes pour Commande N°:%d ...</string>
+    <string name="edit_line_item">Modifier:</string>
 </resources>

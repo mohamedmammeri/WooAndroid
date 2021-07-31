@@ -71,4 +71,6 @@
     <string name="card_validated">تم تأكيد الطلبية</string>
     <string name="delete_order_history_title">حذف طلبية من سجل الطلبيات</string>
     <string name="delete_order_history_prompt">هل ترغب فعلا بحذف هذه الطلبية من سجل الطلبيات؟</string>
+    <string name="loading_notes_for_order_id">جاري تحميل ملاحظات الطلبية %d...</string>
+    <string name="edit_line_item">تعديل:</string>
 </resources>
