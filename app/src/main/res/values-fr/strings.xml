@@ -6,6 +6,7 @@
     <string name="card">panier</string>
     <string name="total">Total:</string>
     <string name="msg_no_connection">Pas de connexion!</string>
+    <string name="msg_error_server">Ne n\'avons pas connecter avec le serveur!</string>
     <string name="msg_no_more_data">Pas de données à afficher</string>
     <string name="msg_add_item">Voulez-vous ajouter cet article?</string>
     <string name="confirm">CONFIRMER</string>

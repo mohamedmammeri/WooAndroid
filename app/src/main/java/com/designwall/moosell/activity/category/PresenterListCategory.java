@@ -3,11 +3,10 @@ package com.designwall.moosell.activity.category;
 import android.util.Log;
 
 import com.designwall.moosell.R;
-import com.designwall.moosell.task.GetDataTask;
-import com.designwall.moosell.model.Product.ProductCategory;
-import com.designwall.moosell.util.Helper;
-import com.designwall.moosell.util.Network;
 import com.designwall.moosell.config.Url;
+import com.designwall.moosell.model.Product.ProductCategory;
+import com.designwall.moosell.task.GetDataTask;
+import com.designwall.moosell.util.Network;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -30,9 +29,9 @@ public class PresenterListCategory implements iPresenterListCategory {
     private MainActivity mView;
 
     public PresenterListCategory(MainActivity view) {
-        mGson        = new Gson();
-        mCategories  = new ArrayList<>();
-        mView        = view;
+        mGson = new Gson();
+        mCategories = new ArrayList<>();
+        mView = view;
         mView.setupRecyclerView(mCategories);
     }
 
@@ -51,29 +50,29 @@ public class PresenterListCategory implements iPresenterListCategory {
 
     @Override
     public void loadData() {
-        if (Network.isAvailable(mView)){
+        if (Network.isAvailable(mView)) {
             Log.d("Test", "Loading data ...");
-            new GetDataTask(GetDataTask.METHOD_GET){
+            new GetDataTask(GetDataTask.METHOD_GET) {
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
                     Log.d("Test", "Pre-Executing...");
                     mView.showRecyclerViewShimmer();
                 }
+
                 @Override
                 protected void onPostExecute(String[] result) {
                     super.onPostExecute(result);
-                    Log.d("Test", "Nbr of result: " + result.length);
-                    if (result.length > 0) {
+                    if (result[0] != null) {
                         Log.d("Test", result[0].toString());
                         JsonElement jsonElement = new JsonParser().parse(result[0]).getAsJsonObject().get("errors");
-                        if (jsonElement != null){
+                        if (jsonElement != null) {
                             JsonArray jsonElements = jsonElement.getAsJsonArray();
                             for (int i = 0; i < jsonElements.size(); i++) {
                                 JsonObject errorObject = jsonElements.get(i).getAsJsonObject();
                                 Log.d("Test", errorObject.get("code").toString());
                                 mView.setRefreshing(false);
-                                mView.showDialog( mView.getString(R.string.error), errorObject.getAsJsonObject().get("message").toString());
+                                mView.showDialog(mView.getString(R.string.error), errorObject.getAsJsonObject().get("message").toString());
                             }
                             return;
                         }
@@ -85,12 +84,14 @@ public class PresenterListCategory implements iPresenterListCategory {
                         mView.hideRecyclerViewShimmer();
                     } else {
                         Log.d("Test", "Result is empty.");
+                        mView.setRefreshing(false);
+                        mView.showDialog(mView.getString(R.string.error), mView.getString(R.string.msg_error_server));
                     }
                 }
 
             }.execute(Url.getProductCategories());
 
-        } else{
+        } else {
             mView.setRefreshing(false);
             mView.showDialog(mView.getString(R.string.error), mView.getString(R.string.msg_no_connection));
         }

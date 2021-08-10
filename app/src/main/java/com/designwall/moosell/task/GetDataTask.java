@@ -6,8 +6,6 @@ import android.util.Log;
 import com.designwall.moosell.task.woocomerce.OAuthInterceptor;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
@@ -15,9 +13,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okio.ByteString;
 
-import static com.designwall.moosell.config.Constant.*;
+import static com.designwall.moosell.config.Constant.CONSUMER_KEY;
+import static com.designwall.moosell.config.Constant.CONSUMER_SECRET;
 
 /**
  * Created by SCIT on 3/9/2017.
@@ -64,23 +62,25 @@ public class GetDataTask extends AsyncTask<String, Integer, String[]> {
     @Override
     protected String[] doInBackground(String... urls) {
         String[] result = new String[urls.length];
+
         for (int i = 0; i < urls.length; i++) {
-//            Log.d("Test", "URL: " + urls[i]);
+            Log.d("Test", "URL: " + urls[i]);
+            Log.d("Test", "URL: " + urls.length);
             Request request = null;
 //            Log.v("Test", BASIC_AUTH);
             try {
-                switch (mMethod){
+                switch (mMethod) {
                     case METHOD_POST:
                         request = new Request.Builder()
                                 .url(urls[i])
-                                .post( RequestBody.create(JSON, mRequestBody) )
+                                .post(RequestBody.create(JSON, mRequestBody))
 //                                .header("Authorization", BASIC_AUTH)
                                 .build();
                         break;
                     case METHOD_PUT:
                         request = new Request.Builder()
                                 .url(urls[i])
-                                .put( RequestBody.create(JSON, mRequestBody) )
+                                .put(RequestBody.create(JSON, mRequestBody))
 //                                .header("Authorization", BASIC_AUTH)
                                 .build();
                         break;
@@ -113,20 +113,15 @@ public class GetDataTask extends AsyncTask<String, Integer, String[]> {
                 e.printStackTrace();
             }
         }
+
         return result;
+
     }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        //TODO: Update Progress here
-    }
 
     @Override
     protected void onPostExecute(String[] result) {
         super.onPostExecute(result);
-        //TODO: Executing data here
-        //Log.v("Test", result.toString());
     }
 
 /*    public static Response doGet(String url) throws IOException {

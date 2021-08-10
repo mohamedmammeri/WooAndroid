@@ -6,6 +6,7 @@
     <string name="card">سلة</string>
     <string name="total">المجموع:</string>
     <string name="msg_no_connection">لا يوجد اتصال بالشبكة</string>
+    <string name="msg_error_server">لا يمكن الاتصال بالخادم</string>
     <string name="msg_no_more_data">لا يوجد المزيد من البيانات</string>
     <string name="msg_add_item">هل ترغب بإضافة هذه المنتج؟</string>
     <string name="confirm">تأكيد</string>

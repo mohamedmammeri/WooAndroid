@@ -5,6 +5,7 @@
     <string name="card">card</string>
     <string name="total">Total: </string>
     <string name="msg_no_connection">No Internet Connection!</string>
+    <string name="msg_error_server">Error to connect with server!</string>
     <string name="msg_no_more_data">No more data to show!</string>
     <string name="msg_add_item">Do you want to add this item ?</string>
     <string name="confirm">CONFIRM</string>

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.designwall.moosell.R;
 import com.designwall.moosell.adapter.OrderArrayAdapter;
@@ -24,7 +23,8 @@ import butterknife.ButterKnife;
 public class OrderActivity extends AppCompatActivity
         implements OrderArrayAdapter.OnOrderClick {
 
-    @BindView(R.id.lvOrders) ListView lvOrders;
+    @BindView(R.id.lvOrders)
+    ListView lvOrders;
     private DatabaseHelper dbHelper;
     private Dao<Order, Integer> orderDao;
 
@@ -47,7 +47,7 @@ public class OrderActivity extends AppCompatActivity
         super.onResume();
         List<Order> orders = new ArrayList<Order>();
         try {
-            orders.addAll( orderDao.queryForAll() );
+            orders.addAll(orderDao.queryForAll());
             Log.d("Test", "Nbr of Orders: " + orders.size());
 //            for (Order o: orders){
 //                Log.d("Test", "Order: " + o.toString());
@@ -57,10 +57,11 @@ public class OrderActivity extends AppCompatActivity
             Log.e("Test", "Error: " + e.getMessage());
         }
 
-        if (orders.isEmpty()){
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.order_history_empty), Toast.LENGTH_SHORT).show();
-            finish();
+        if (orders.isEmpty()) {
+            // Toast.makeText(getApplicationContext(),
+            //       getString(R.string.order_history_empty), Toast.LENGTH_SHORT).show();
+            Helper.showDialog(this, getString(R.string.error), getString(R.string.order_history_empty));
+            //finish();
         } else {
             OrderArrayAdapter adapter = new OrderArrayAdapter(this, orders);
             lvOrders.setAdapter(adapter);
